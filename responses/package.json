@@ -1,0 +1,19 @@
+{
+  "name": "utveckling",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "express": "^4.21.2"
+  },
+  "description": ""
+}
