@@ -115,7 +115,20 @@ export const update = async (req: Request, res: Response) => {
 	}
 
 	try {
-		const updatedMovie = await Movie.findByIdAndUpdate(movieId , req.body, { new: true });
+		const updatedMovie = await Movie.findByIdAndUpdate(movieId , req.body, { 
+			new: true, 
+			runValidators: true 
+		});
+
+		if (!updatedMovie) {
+			res.status(404).send({
+				status: "fail",
+				data: {
+					message: "Movie Not Found",
+				},
+			});
+			return;
+		}
 
 		res.status(200).send({status: "success", data: updatedMovie});
 
@@ -152,8 +165,21 @@ export const destroy = async (req: Request, res: Response) => {
 
 	try {
 		const deletedMovie = await Movie.findByIdAndDelete(movieId);
+
+		if (!deletedMovie) {
+			res.status(404).send({
+				status: "fail",
+				data: {
+					message: "Movie Not Found",
+				},
+			});
+			return;
+		}
+
 		res.status(204).send(deletedMovie);
+
 	} catch (error) {
+
 		if(error instanceof mongoose.Error.ValidationError){
 			debug("Validation failed when deleting movie %o: %O", req.body, error);
 			res.status(400).send({
