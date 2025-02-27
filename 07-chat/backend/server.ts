@@ -7,7 +7,9 @@ import app from "./src/app";
 import Debug from "debug";
 import http from "http";
 import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui"
 import { handleConnection } from "./src/controllers/socket_controller";
+import { deleteAllUsers } from "./src/services/user_service";
 import { ClientToServerEvents, ServerToClientEvents } from "@shared/types/SocketEvents.types";
 
 // Read port to start server on from `.env`, otherwise default to port 3000
@@ -21,11 +23,30 @@ const debug = Debug("chat:server");
  */
 const httpServer = http.createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
-	cors: {
-		credentials: true,
-		origin: "*",
-	},
+		cors: {
+			credentials: true,
+			origin: [
+				"http://localhost:5173",
+				"https://*.herokuapp.com",
+				"https://admin.socket.io",
+			],
+		},
 });
+
+/**
+ * 
+ * Set up socket IO Admin but only if there is a password in the .env
+ */
+if(process.env.SOCKET_IO_ADMIN_PASSWORD){
+	console.log("Setting up socket.IO admin UI");
+	instrument(io, {
+		auth: {
+			type: "basic",
+			username: "admin",
+			password: process.env.SOCKET_IO_ADMIN_PASSWORD,
+		}
+	});
+}
 
 /**
  * Handle incoming Socket.IO connection
@@ -36,9 +57,20 @@ io.on("connection", (socket) => {
 });
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Delete all users from the database 😈
  */
-httpServer.listen(PORT);
+deleteAllUsers()
+	.then(() => {
+		console.log("🧹 Deleted all ze users 😇");
+
+		/**
+		 * Listen on provided port, on all network interfaces.
+		 */
+		httpServer.listen(PORT);
+	})
+	.catch(err => {
+		console.error("🚨 Could not delete all ze users 😱", err);
+	});
 
 /**
  * Event listener for HTTP server "error" event.

@@ -18,10 +18,8 @@
 				</div>
 
 				<div class="mb-3">
-					<select class="form-select" id="room" required>
-					</select>
+					<select class="form-select" id="room" required></select>
 				</div>
-	
 
 				<button type="submit" id="connectBtn" class="btn btn-success" disabled>Connect!</button>
 			</form><!-- /#username-form -->
@@ -55,7 +53,14 @@
 
 				<form id="message-form">
 					<div class="input-group">
-						<input type="text" id="message" class="form-control" placeholder="Type something nice...">
+						<input
+							aria-label="Your chat message"
+							autocomplete="off"
+							class="form-control"
+							id="message"
+							placeholder="Type something nice..."
+							type="text"
+						>
 						<button type="submit" class="btn btn-success">Send</button>
 					</div><!-- /#input-group-->
 				</form><!-- /#message-form-->

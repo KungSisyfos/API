@@ -1,0 +1,24 @@
+{
+  "rooms": [
+    {
+      "_id": "67b84d329661e02c599ba543",
+      "name": "general",
+      "users": [
+        {
+          "_id": "zFhqBVUVPVGFJ4fAAAAF",
+          "username": "Agneta"
+        }
+      ]
+    },
+    {
+      "_id": "67b84d535c873608f0120c25",
+      "name": "major",
+      "users": []
+    },
+    {
+      "_id": "67b84d5e7d508116c201dc9e",
+      "name": "captain",
+      "users": []
+    }
+  ]
+}

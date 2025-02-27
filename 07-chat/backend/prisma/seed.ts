@@ -5,13 +5,24 @@ async function main() {
 	// Here be all your seeds 🌱
 	await prisma.room.upsert({
 		where: {
+			name: "Private",
+		},
+		update: {},
+		create: {
+			name: "Private",
+		},
+	});
+
+	await prisma.room.upsert({
+		where: {
 			name: "General",
 		},
 		update: {},
 		create: {
 			name: "General",
-		}
+		},
 	});
+
 	await prisma.room.upsert({
 		where: {
 			name: "Major",
@@ -19,16 +30,7 @@ async function main() {
 		update: {},
 		create: {
 			name: "Major",
-		}
-	});
-	await prisma.room.upsert({
-		where: {
-			name: "Captain",
 		},
-		update: {},
-		create: {
-			name: "Captain",
-		}
 	});
 }
 
